@@ -30,6 +30,8 @@ jobs:
 
     - name: Commit changes
       run: |
+        git config --global http.proxy 127.0.0.1:7890
+        git config --global https.proxy 127.0.0.1:7890
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
