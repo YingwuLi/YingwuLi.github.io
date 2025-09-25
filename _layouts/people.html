@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<div class="people-page">
+
+  <!-- Group Photo -->
+  {% assign group_photo = site.people | where_exp:"item","item.layout == 'people_photo'" | first %}
+  {% if group_photo %}
+    <br/><img src='/images/group_photo.png'>
+  {% endif %}
+
+  <!-- Categorized Members -->
+  {% assign categories = site.people | map:"category" | uniq %}
+  {% for category in categories %}
+    <h2 style="text-align:center;">{{ category }}</h2>
+    <div class="people-category" style="display:flex; flex-wrap:wrap; gap:2em; margin-bottom:2em; justify-content:center;">
+      {% assign members = site.people | where:"category", category %}
+      {% for member in members %}
+        {% if member.layout != "people_photo" %}
+          {% include archive-single-people.html person=member %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+</div>

@@ -1,0 +1,49 @@
+{% include base_path %}
+
+<div class="{{ include.type | default: "list" }}__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/Person">
+
+    <!-- Teaser / Photo -->
+    {% if include.person.photo %}
+      {% assign teaser = include.person.photo %}
+    {% elsif include.person.header.teaser %}
+      {% assign teaser = include.person.header.teaser %}
+    {% else %}
+      {% assign teaser = site.teaser %}
+    {% endif %}
+
+    {% if include.type == "grid" and teaser %}
+      <div class="archive__item-teaser">
+        <img src="{% if teaser contains '://' %}{{ teaser }}{% else %}{{ teaser | prepend: '/images/' | prepend: base_path }}{% endif %}" alt="{{ include.person.name }}" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
+      </div>
+    {% endif %}
+
+    <!-- Name -->
+    <h2 class="archive__item-title" itemprop="name">
+      <a href="{{ base_path }}{{ include.person.url }}" rel="permalink">{{ include.person.name }}</a>
+    </h2>
+
+    <!-- Role / Affiliation -->
+    {% if include.person.role %}
+      <p class="archive__item-excerpt" itemprop="jobTitle">{{ include.person.role }}</p>
+    {% endif %}
+    {% if include.person.affiliation %}
+      <p class="archive__item-excerpt" itemprop="affiliation">{{ include.person.affiliation }}</p>
+    {% endif %}
+
+    <!-- Bio / Excerpt -->
+    {% if include.person.excerpt %}
+      <p class="archive__item-excerpt" itemprop="description">{{ include.person.excerpt | markdownify }}</p>
+    {% endif %}
+
+    <!-- Optional: Email / Website -->
+    {% if include.person.email %}
+      <p>Email: <a href="mailto:{{ include.person.email }}">{{ include.person.email }}</a></p>
+    {% endif %}
+    {% if include.person.website %}
+      <p><a href="{{ include.person.website }}" target="_blank">Website</a></p>
+    {% endif %}
+
+  </article>
+</div>
+

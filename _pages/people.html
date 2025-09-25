@@ -1,0 +1,53 @@
+---
+layout: archive
+title: ""
+permalink: /people/
+author_profile: true
+---
+
+
+<div class="people-page">
+
+  <!-- Group Photo 
+  {% assign group_photo = site.people | where_exp:"item","item.layout == 'people_photo'" | first %}
+  {% if group_photo %}
+    <div class="group-photo" style="text-align:center; margin-bottom: 2em;">
+      <h1>Meet the Group</h1>
+      <img src="{{ group_photo.photo }}" alt="{{ group_photo.title }}" style="max-width:100%; height:auto; border-radius:8px;">
+    </div>
+  {% endif %}-->
+
+  <!-- Categories in order: PI → PostDoc → PhD → MSc -->
+  {% assign categories_order = "PI,PostDoc,PhD,MSc,Former" | split: "," %}
+  {% assign categories_labels = "Academic and Research Staff,Postdoctoral Fellow,PhD Students,MSc Students,Former Staff and Students" | split: "," %}
+  {% assign i = 0 %}   <!-- 初始化变量 -->
+
+
+  {% for category in categories_order %}
+    {% assign members = site.people | where:"category", category %}
+    {% if members != empty %}
+      <h2 style="margin-top:2em;">{{ categories_labels[i] }}</h2>
+      <div class="people-category" style="display:flex; flex-wrap:wrap; gap:1.5em;">
+        {% for person in members %}
+          {% if person.layout != "people_photo" %}
+          <div class="person-card" style="flex:1 1 300px; max-width:600px;">
+            {% if person.photo %}
+              <img src="{{ person.photo }}" alt="{{ person.name }}">
+            {% endif %}
+            <h3>{{ person.name }}</h3>
+            {% if person.role != empty%}<p><strong>Role:</strong> {{ person.role }}</p>{% endif %}
+            {% if person.location != empty%}<p><strong>Location:</strong> {{ person.location }}</p>{% endif %}
+            {% if person.interest != empty%}<p><strong>Research Interest:</strong> {{ person.interest }}</p>{% endif %}
+            {% if person.email != empty%}<p><strong>Email:</strong> <a href="mailto:{{ person.email }}">{{ person.email }}</a></p>{% endif %}
+            {% if person.website != empty%}<p><strong>Website:</strong> <a href="{{ person.website }}" target="_blank">{{ person.website }}</a></p>{% endif %}
+            {% if person.duration != empty%}<p><strong>Duration:</strong> {{ person.duration }}</p>{% endif %}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% assign i = i | plus: 1 %}   <!-- 自增 1 -->
+  {% endfor %}
+
+</div>
+
